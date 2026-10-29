@@ -1,0 +1,6 @@
+{
+	"title": "Beatrun Derma Skin",
+	"type": "tool",
+	"tags": ["fun"],
+	"ignore": [".git/*", ".vscode/*", "*.md"]
+}
