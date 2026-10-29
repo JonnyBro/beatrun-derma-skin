@@ -69,7 +69,7 @@ local function PaintWindowBackground(panel, w, h)
 	draw.RoundedBox(S(t.radius), 0, 0, w, h, t.bg)
 end
 
-local SKIN = table.Copy(derma.GetNamedSkin("Default"))
+local SKIN = {}
 
 SKIN.PrintName = "Beatrun"
 SKIN.Author = "Jonny_Bro"
@@ -471,13 +471,40 @@ function SKIN:PaintMenuBar(panel, w, h)
 	surface.DrawRect(0, 0, w, h)
 end
 
-UpdateColours()
+-- Register the skin after the default one exists
+local registered = false
 
-derma.DefineSkin("Beatrun", "Beatrun HUD style", SKIN)
+local function Register()
+	if registered then return true end
+
+	local base = derma.GetNamedSkin("Default")
+	if not base then return false end
+
+	SKIN.Colours = table.Copy(base.Colours)
+
+	UpdateColours()
+
+	derma.DefineSkin("Beatrun", "Beatrun HUD style", SKIN)
+
+	registered = true
+
+	return true
+end
 
 local function Refresh()
+	if not Register() then return end
+
 	UpdateColours()
 	derma.RefreshSkins()
+end
+
+if not Register() then
+	timer.Create("BeatrunDermaSkin_Register", 0, 0, function()
+		if Register() then
+			timer.Remove("BeatrunDermaSkin_Register")
+			derma.RefreshSkins()
+		end
+	end)
 end
 
 cvars.AddChangeCallback("Beatrun_MenuTheme", Refresh, "BeatrunDermaSkin")
