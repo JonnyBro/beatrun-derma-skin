@@ -1,6 +1,14 @@
 {
 	"title": "Beatrun Derma Skin",
 	"type": "tool",
-	"tags": ["fun"],
-	"ignore": [".git/*", ".vscode/*", "*.md"]
+	"tags": [
+		"fun"
+	],
+	"ignore": [
+		".git/*",
+		".vscode/*",
+		"*.md",
+		"icon.png",
+		"icon.jpg"
+	]
 }
